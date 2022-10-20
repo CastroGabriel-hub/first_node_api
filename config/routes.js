@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = express.Router();
+const con = require('./database');
 
 let db = [
     {'1': {Nome: 'Cliente 1', Idade: '20'}},
@@ -11,6 +12,16 @@ let db = [
 routes.get('/', (req, res) => {
     return res.json(db)
 });
+
+routes.get('/recados', (req, res) => {
+    
+    con.query("SELECT * FROM tb_recados", function (err, result, fields) {
+        if (err) throw err;
+        
+        res.send(result)
+    });
+    
+})
 
 //Inserir Dados
 routes.post('/add', (req, res) => {
